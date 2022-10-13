@@ -9,10 +9,10 @@ class Routes{
     getGroupedProductRoutes(app:AppType){
         
         app.post("/postGroupedProducts",async(req:Request,res:Response)=>{
-            let currentDbInstnace = GroupedProductDbInstance.findOne({id:req.body.fixedId})
+            let currentDbInstnace = GroupedProductDbInstance.findOne({id:req.body.where.fixedId})
             let dbInstance;
             if (!currentDbInstnace){
-                const groupedProductDbInstance = new GroupedProductDbInstance(req.body);
+                const groupedProductDbInstance = new GroupedProductDbInstance(req.body.where);
                 groupedProductDbInstance.save((err,docs)=>{
                     if(!err){
                         res.status(200).json({"status":true})

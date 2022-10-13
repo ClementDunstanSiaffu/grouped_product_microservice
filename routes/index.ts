@@ -26,7 +26,7 @@ class Routes{
             }
         })
 
-        app.get("/getGroupedProducts",(req:Request,res:Response)=>{
+        app.post("/getGroupedProducts",(req:Request,res:Response)=>{
             GroupedProductDbInstance.find((err,docs)=>{
                 if(!err){
                     res.status(200).json(docs);

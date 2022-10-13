@@ -7,8 +7,9 @@ import {AppType} from '../types/'
 class Routes{
 
     getGroupedProductRoutes(app:AppType){
-        app.post("/postGroupedProducts",(req:Request,res:Response)=>{
+        app.post("/postGroupedProducts",async(req:Request,res:Response)=>{
             let currentDbInstnace = GroupedProductDbInstance.findOne({id:req.body.fixedId})
+            let dbInstance;
             if (!currentDbInstnace){
                 const groupedProductDbInstance = new GroupedProductDbInstance(req.body);
                 groupedProductDbInstance.save((err,docs)=>{
@@ -19,8 +20,10 @@ class Routes{
                     }
                 })
             }else{
+                dbInstance = await GroupedProductDbInstance.replaceOne(currentDbInstnace,req.body)
                 res.json({"status":"already saved"});
             }
+         
           
         })
         app.get("/getGroupedProducts",(req:Request,res:Response)=>{
